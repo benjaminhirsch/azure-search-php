@@ -1,0 +1,5 @@
+<?php
+
+define('AZURE_URL', '');
+define('AZURE_ADMIN_KEY', '');
+define('AZURE_VERSION', '2015-02-28');
