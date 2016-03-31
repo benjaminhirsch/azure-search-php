@@ -9,7 +9,13 @@
       "email": "mail@benjaminhirsch.net"
     }
   ],
+  "keywords": [
+    "azure",
+    "search",
+    "microsoft"
+  ],
   "require": {
+    "php": "^7.0",
     "zendframework/zend-http": "2.5.4"
   },
   "require-dev": {
