@@ -15,7 +15,7 @@ final class Field
      * There is no theoretical upper limit on the number of items in a collection,
      * but the 16 MB upper limit on payload size applies to collection
      */
-    const TYPE_COLLECTION = "Collection";
+    const TYPE_COLLECTION = "Collection(Edm.String)";
 
     /**
      * Contains true/false values.
