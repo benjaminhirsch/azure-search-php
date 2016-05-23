@@ -1,18 +1,18 @@
 <?php
 
-namespace B3NTest\Azure;
+namespace B3NTest\Azure\Search;
 
 @include dirname(__FILE__) . '/config.php';
 
-use B3N\Azure\Index;
-use B3N\Azure\Index\Field;
-use B3N\Azure\Search;
+use B3N\Azure\Search\Index;
+use B3N\Azure\Search\Index\Field;
+use B3N\Azure\Search\Service;
 use Zend\Http\Response;
 
 class AzureSearchAdminTest extends \PHPUnit_Framework_TestCase
 {
 
-    /** @var Search */
+    /** @var Service */
     private $azure;
 
     public function __construct()
@@ -21,12 +21,12 @@ class AzureSearchAdminTest extends \PHPUnit_Framework_TestCase
             throw new \Exception('Constant AZURE_URL or AZURE_ADMIN_KEY or AZURE_VERSION isnt\'t set!');
         }
 
-        $this->azure = new Search(AZURE_URL, AZURE_ADMIN_KEY, AZURE_VERSION);
+        $this->azure = new Service(AZURE_URL, AZURE_ADMIN_KEY, AZURE_VERSION);
     }
 
     public function testInitAzureAdmin()
     {
-        $this->assertInstanceOf('B3N\Azure\Search', $this->azure);
+        $this->assertInstanceOf('B3N\Azure\Search\Service', $this->azure);
         $this->assertEquals(AZURE_URL, $this->azure->getUrl());
         $this->assertEquals(AZURE_ADMIN_KEY, $this->azure->getApiAdminKey());
     }

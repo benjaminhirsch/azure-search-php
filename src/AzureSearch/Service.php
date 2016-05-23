@@ -1,9 +1,9 @@
 <?php
 
-namespace B3N\Azure;
+namespace B3N\Azure\Search;
 
-use B3N\Azure\Exception\LengthException;
-use B3N\Azure\Exception\UnexpectedValueException;
+use B3N\Azure\Search\Exception\LengthException;
+use B3N\Azure\Search\Exception\UnexpectedValueException;
 use Zend\Http\Client;
 use Zend\Http\Client\Adapter\AdapterInterface;
 use Zend\Http\Client\Adapter\Curl;
@@ -13,7 +13,7 @@ use Zend\Http\Headers;
 use Zend\Http\Request;
 use Zend\Http\Response;
 
-class Search
+class Service
 {
     /**
      * @var string

@@ -23,12 +23,12 @@
   },
   "autoload": {
     "psr-4": {
-      "B3N\\Azure\\": "src/Azure"
+      "B3N\\Azure\\Search\\": "src/AzureSearch"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "B3NTest\\Azure\\": "test/"
+      "B3NTest\\Azure\\Search\\": "test/"
     }
   }
 }

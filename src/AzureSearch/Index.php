@@ -1,9 +1,9 @@
 <?php
 
-namespace B3N\Azure;
+namespace B3N\Azure\Search;
 
-use B3N\Azure\Index\Field;
-use B3N\Azure\Index\Suggest;
+use B3N\Azure\Search\Index\Field;
+use B3N\Azure\Search\Index\Suggest;
 
 final class Index
 {

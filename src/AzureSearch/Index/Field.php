@@ -1,6 +1,6 @@
 <?php
 
-namespace B3N\Azure\Index;
+namespace B3N\Azure\Search\Index;
 
 final class Field
 {
