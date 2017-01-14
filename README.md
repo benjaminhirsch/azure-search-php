@@ -32,8 +32,8 @@ At first you have to create a index `B3N\Azure\Search\Index` in which you have t
 
 ```php
 $index = new B3N\Azure\Search\Index('name of your index');
-$index->addField(new B3N\Azure\Search\Field('field name 1', B3N\Azure\Search\Field::TYPE_STRING, true))
-       ->addField(new B3N\Azure\Search\Field('field name 2', B3N\Azure\Search\Field::TYPE_STRING))
+$index->addField(new B3N\Azure\Search\Index\Field('field name 1', B3N\Azure\Search\Index\Field::TYPE_STRING, true))
+       ->addField(new B3N\Azure\Search\Index\Field('field name 2', B3N\Azure\Search\Index\Field::TYPE_STRING))
        ->addSuggesters(new B3N\Azure\Search\Index\Suggest('livesearch', ['field name(s)']));
 
 $this->azuresearch->createIndex($index);
