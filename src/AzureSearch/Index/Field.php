@@ -95,7 +95,7 @@ final class Field
     private $retrievable;
 
     /**
-     * @var bool
+     * @var string
      */
     private $analyzer;
 
@@ -130,7 +130,7 @@ final class Field
      *                          when you want to use a field (e.g., margin) as a filter, sorting, or scoring
      *                          mechanism but do not want the field to be visible to the end user. This
      *                          attribute must be true for key fields.
-     * @param bool $analyzer Sets the name of the language analyzer to use for the field
+     * @param string $analyzer Sets the name of the language analyzer to use for the field
      */
     public function __construct(
         string $name,
@@ -141,7 +141,7 @@ final class Field
         bool $sortable = true,
         bool $facetable = true,
         bool $retrievable = true,
-        bool $analyzer = null
+        string $analyzer = null
     ) {
 
         $this->name = $name;
