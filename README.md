@@ -24,7 +24,7 @@ $ composer require b3n/php-azure-search
 ###Initalize
 You get your credentials `$azure_url`, `$azure_admin_key` and `$azure_version` in your Microsoft Azure portal under "Search Services".
 ```php
-$this->azuresearch = new B3N\Azure\Search\Search(azure_url, azure_admin_key, azure_version);
+$this->azuresearch = new B3N\Azure\Search\Service(azure_url, azure_admin_key, azure_version);
 ```
 
 ###Create a Index
