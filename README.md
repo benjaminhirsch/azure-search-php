@@ -24,7 +24,7 @@ $ composer require b3n/php-azure-search
 ###Initalize
 You get your credentials `$azure_url`, `$azure_admin_key` and `$azure_version` in your Microsoft Azure portal under "Search Services".
 ```php
-$this->azuresearch = new B3N\Azure\Search\Service(azure_url, azure_admin_key, azure_version);
+$azuresearch = new B3N\Azure\Search\Service(azure_url, azure_admin_key, azure_version);
 ```
 
 ###Create a Index
@@ -36,13 +36,13 @@ $index->addField(new B3N\Azure\Search\Index\Field('field name 1', B3N\Azure\Sear
        ->addField(new B3N\Azure\Search\Index\Field('field name 2', B3N\Azure\Search\Index\Field::TYPE_STRING))
        ->addSuggesters(new B3N\Azure\Search\Index\Suggest('livesearch', ['field name(s)']));
 
-$this->azuresearch->createIndex($index);
+$azuresearch->createIndex($index);
 ```
 
 ###Delete a index
 Deletes the complete index from Azure. Deleting a index also deletes the documents stored in the index.
 ```php
-$this->azuresearch->deleteIndex('name of the index to delete');
+$azuresearch->deleteIndex('name of the index to delete');
 ```
 
 ###Upload documents
@@ -54,15 +54,15 @@ $data['value'][] = [
     'field name 2' => <your value for field name 2>
 ];
 
-$this->azuresearch->uploadToIndex('name of your index', $data);
+$azuresearch->uploadToIndex('name of your index', $data);
 ```
 
 ###Live search (suggestions)
 ```php
-$this->azuresearch->suggestions('name of your index', 'your term', 'livesearch')
+$azuresearch->suggestions('name of your index', 'your term', 'livesearch')
 ```
 
 ###Search documents
 ```php
-$this->azuresearch->search('name of your index', 'your term');
+$azuresearch->search('name of your index', 'your term');
 ```
