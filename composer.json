@@ -2,7 +2,7 @@
   "name": "b3n/php-azure-search",
   "description": "A simple PHP Class to communicate with the Microsoft Azure Search REST API",
   "minimum-stability": "stable",
-  "license": "MIT License",
+  "license": "MIT",
   "authors": [
     {
       "name": "Benjamin Hirsch",
