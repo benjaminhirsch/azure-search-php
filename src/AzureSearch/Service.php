@@ -123,7 +123,8 @@ class Service
     {
         // Check if max number per request if reached
         if (count($data) > $this->batchLimit) {
-            throw new LengthException('Maximum number of documents per request exceeded (max. length' . $this->batchLimit . ').');
+            throw new LengthException('Maximum number of 
+            documents per request exceeded (max. length' . $this->batchLimit . ').');
         }
 
         $this->client->setUri($this->url . '/indexes/' . $indexName . '/docs/index?api-version=' . $this->getVersion())
@@ -328,7 +329,8 @@ class Service
      */
     public function suggestions(string $indexName, string $term, string $suggester, array $options = null): \stdClass
     {
-        $this->client->setUri($this->url . '/indexes/' . $indexName . '/docs/suggest?api-version=' . $this->getVersion())
+        $this->client
+            ->setUri($this->url . '/indexes/' . $indexName . '/docs/suggest?api-version=' . $this->getVersion())
             ->setMethod(Request::METHOD_POST);
 
         $args = [
