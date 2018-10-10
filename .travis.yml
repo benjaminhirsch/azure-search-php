@@ -9,7 +9,6 @@ cache:
 env:
   global:
   - COMPOSER_ARGS="--no-interaction"
-  - COVERAGE_DEPS="php-coveralls/php-coveralls"
 
 matrix:
   include:
@@ -25,7 +24,6 @@ before_install:
 
 install:
 - travis_retry composer install $COMPOSER_ARGS --ignore-platform-reqs
-- if [[ $TEST_COVERAGE == 'true' ]]; then travis_retry composer require --dev $COMPOSER_ARGS $COVERAGE_DEPS ; fi
 - stty cols 120 && composer show
 
 script:
