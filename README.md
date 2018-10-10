@@ -1,4 +1,9 @@
 # Microsoft Azure Search Service for php
+[![Latest Stable Version](https://poser.pugx.org/benjaminhirsch/azure-search-php/v/stable)](https://packagist.org/packages/benjaminhirsch/azure-search-php)
+[![Total Downloads](https://poser.pugx.org/benjaminhirsch/azure-search-php/downloads)](https://packagist.org/packages/benjaminhirsch/azure-search-php)
+[![Build Status](https://api.travis-ci.org/benjaminhirsch/azure-search-php.png?branch=master)](http://travis-ci.org/benjaminhirsch/azure-search-php)
+[![Coverage Status](https://coveralls.io/repos/benjaminhirsch/azure-search-php/badge.png?branch=master)](https://coveralls.io/r/benjaminhirsch/azure-search-php)
+
 `b3n/php-azure-search` is a simple php toolbox to interact with the Microsoft Azure Search Service REST API.
 
 **Features:**

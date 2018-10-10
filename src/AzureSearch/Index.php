@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace B3N\Azure\Search;
 
@@ -30,8 +31,8 @@ final class Index
     const ACTION_MERGE_OR_UPLOAD = 'mergeOrUpload';
 
     /**
-     * Delete removes the specified document from the index. Note that any field you specify in a delete 
-     * operation, other than the key field, will be ignored. If you want to remove an individual field 
+     * Delete removes the specified document from the index. Note that any field you specify in a delete
+     * operation, other than the key field, will be ignored. If you want to remove an individual field
      * from a document, use merge instead and simply set the field explicitly to null.
      */
     const ACTION_DELETE = 'delete';
@@ -63,6 +64,7 @@ final class Index
 
     /**
      * Index constructor.
+     *
      * @param string $name
      */
     public function __construct(string $name)
@@ -80,9 +82,10 @@ final class Index
 
     /**
      * @param Field $field
+     *
      * @return Index
      */
-    public function addField(Field $field) : Index
+    public function addField(Field $field): Index
     {
         $this->fields[] = $field();
 
@@ -91,9 +94,10 @@ final class Index
 
     /**
      * @param Suggest $suggest
+     *
      * @return Index
      */
-    public function addSuggesters(Suggest $suggest) : Index
+    public function addSuggesters(Suggest $suggest): Index
     {
         $this->suggesters[] = $suggest();
 
@@ -103,9 +107,10 @@ final class Index
     /**
      * @param mixed(string|array) $allowedOrigins
      * @param int $maxAgeInSeconds
+     *
      * @return Index
      */
-    public function addCrossOrigins(mixed $allowedOrigins, int $maxAgeInSeconds = 0) : Index
+    public function addCrossOrigins($allowedOrigins, int $maxAgeInSeconds = 0): Index
     {
         $this->crossOrigins = $allowedOrigins;
         $this->maxAgeInSecond = $maxAgeInSeconds;
@@ -120,7 +125,7 @@ final class Index
      */
     public function addScoringProfile()
     {
-        throw new \Exception('Not yet implemented');
+        throw new \RuntimeException('Not yet implemented');
     }
 
     /**

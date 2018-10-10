@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace B3N\Azure\Search;
 
@@ -46,19 +47,25 @@ class Service
     /**
      * Search constructor.
      *
-     * @param string $url
-     * @param string $apiAdminKey
-     * @param $version
+     * @param string           $url
+     * @param string           $apiAdminKey
+     * @param                  $version
      * @param AdapterInterface $adapter
+     * @param Client|null      $client
      */
-    public function __construct(string $url, string $apiAdminKey, $version, AdapterInterface $adapter = null)
-    {
+    public function __construct(
+        string $url,
+        string $apiAdminKey,
+        $version,
+        AdapterInterface $adapter = null,
+        Client $client = null
+    ) {
         $this->url = $url;
         $this->apiAdminKey = $apiAdminKey;
 
         // If curl is installed - use curl, otherwise use php sockets or custom adapter
-        if (is_null($adapter)) {
-            $adapter = (function_exists('curl_version')) ? new Curl() : new Socket();
+        if ($adapter === null) {
+            $adapter = \function_exists('curl_version') ? new Curl() : new Socket();
         }
 
         if ($adapter instanceof Curl) {
@@ -70,7 +77,11 @@ class Service
         $this->version = $version;
 
         // Setup HTTP Client for the requests
-        $this->client = new Client();
+        if (null === $client) {
+            $this->client = new Client();
+        } else {
+            $this->client = $client;
+        }
         $this->client->setAdapter($adapter);
 
         // Set necessary headers / content-type
@@ -83,7 +94,7 @@ class Service
     /**
      * @return string
      */
-    public function getUrl() : string
+    public function getUrl(): string
     {
         return $this->url;
     }
@@ -91,15 +102,7 @@ class Service
     /**
      * @return string
      */
-    public function getVersion()
-    {
-        return $this->version;
-    }
-
-    /**
-     * @return string
-     */
-    public function getApiAdminKey() : string
+    public function getApiAdminKey(): string
     {
         return $this->apiAdminKey;
     }
@@ -111,11 +114,12 @@ class Service
      * https://msdn.microsoft.com/en-gb/library/dn798930.aspx
      *
      * @param string $indexName
-     * @param array $data
+     * @param array  $data
+     *
      * @return Response
      * @throws LengthException
      */
-    public function uploadToIndex(string $indexName, array $data) : Response
+    public function uploadToIndex(string $indexName, array $data): Response
     {
         // Check if max number per request if reached
         if (count($data) > $this->batchLimit) {
@@ -125,7 +129,16 @@ class Service
         $this->client->setUri($this->url . '/indexes/' . $indexName . '/docs/index?api-version=' . $this->getVersion())
             ->setMethod(Request::METHOD_POST)
             ->setRawBody(json_encode($data));
+
         return $this->client->send();
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersion()
+    {
+        return $this->version;
     }
 
     /**
@@ -137,13 +150,15 @@ class Service
      * https://msdn.microsoft.com/en-gb/library/dn798941.aspx
      *
      * @param Index $index
+     *
      * @return Response
      */
-    public function createIndex(Index $index) : Response
+    public function createIndex(Index $index): Response
     {
         $this->client->setUri($this->url . '/indexes?api-version=' . $this->getVersion())
             ->setMethod(Request::METHOD_POST)
             ->setRawBody(json_encode($index()));
+
         return $this->client->send();
     }
 
@@ -154,12 +169,14 @@ class Service
      * https://msdn.microsoft.com/en-gb/library/dn798926.aspx
      *
      * @param string $indexName
+     *
      * @return Response
      */
-    public function deleteIndex(string $indexName) : Response
+    public function deleteIndex(string $indexName): Response
     {
         $this->client->setUri($this->url . '/indexes/' . $indexName . '?api-version=' . $this->getVersion())
             ->setMethod(Request::METHOD_DELETE);
+
         return $this->client->send();
     }
 
@@ -168,13 +185,15 @@ class Service
      * https://msdn.microsoft.com/en-gb/library/dn800964.aspx
      *
      * @param Index $index
+     *
      * @return Response
      */
-    public function updateIndex(Index $index) : Response
+    public function updateIndex(Index $index): Response
     {
         $this->client->setUri($this->url . '/indexes/' . $index->getName() . '?api-version=' . $this->getVersion())
             ->setMethod(Request::METHOD_PUT)
             ->setRawBody(json_encode($index()));
+
         return $this->client->send();
     }
 
@@ -184,7 +203,7 @@ class Service
      *
      * @return array
      */
-    public function listIndexes() : array
+    public function listIndexes(): array
     {
         $this->client->setUri($this->url . '/indexes?api-version=' . $this->getVersion())
             ->setMethod(Request::METHOD_GET);
@@ -192,7 +211,7 @@ class Service
 
         if ($response->isSuccess()) {
             $obj = json_decode($response->getBody());
-            if (!is_null($obj)) {
+            if ($obj !== null) {
                 return $obj->value;
             }
         }
@@ -205,10 +224,11 @@ class Service
      * https://msdn.microsoft.com/en-gb/library/dn798939.aspx
      *
      * @param string $indexName
+     *
      * @return \stdClass
      * @throws UnexpectedValueException
      */
-    public function getIndex(string $indexName) : \stdClass
+    public function getIndex(string $indexName): \stdClass
     {
         $this->client->setUri($this->url . '/indexes/' . $indexName . '?api-version=' . $this->getVersion())
             ->setMethod(Request::METHOD_GET);
@@ -216,7 +236,7 @@ class Service
 
         $obj = json_decode($response->getBody());
         if ($response->isSuccess()) {
-            if (!is_null($obj)) {
+            if ($obj !== null) {
                 return $obj;
             }
         } else {
@@ -230,10 +250,11 @@ class Service
      * https://msdn.microsoft.com/en-gb/library/dn798942.aspx
      *
      * @param string $indexName
+     *
      * @return \stdClass
      * @throws UnexpectedValueException
      */
-    public function getIndexStatistics(string $indexName) : \stdClass
+    public function getIndexStatistics(string $indexName): \stdClass
     {
         $this->client->setUri($this->url . '/indexes/' . $indexName . '/stats?api-version=' . $this->getVersion())
             ->setMethod(Request::METHOD_GET);
@@ -241,7 +262,7 @@ class Service
 
         $obj = json_decode($response->getBody());
         if ($response->isSuccess()) {
-            if (!is_null($obj)) {
+            if ($obj !== null) {
                 return $obj;
             }
         } else {
@@ -253,25 +274,26 @@ class Service
      * Search the documents inside a specific index
      * https://msdn.microsoft.com/en-gb/library/dn798927.aspx
      *
-     * @param string $indexName
+     * @param string      $indexName
      * @param string|null $term
-     * @param array|null $options List of all available options https://msdn.microsoft.com/en-us/library/dn798927.aspx
+     * @param array|null  $options List of all available options https://msdn.microsoft.com/en-us/library/dn798927.aspx
+     *
      * @return \stdClass
      * @throws UnexpectedValueException
      */
-    public function search(string $indexName, string $term = null, array $options = null) : \stdClass
+    public function search(string $indexName, string $term = null, array $options = null): \stdClass
     {
         $this->client->setUri($this->url . '/indexes/' . $indexName . '/docs/search?api-version=' . $this->getVersion())
             ->setMethod(Request::METHOD_POST);
 
         $args = [];
-        if (!is_null($term)) {
+        if ($term !== null) {
             $args = [
                 'search' => $term
             ];
         }
 
-        if (!is_null($options)) {
+        if ($options !== null) {
             $args = array_merge($args, $options);
         }
 
@@ -283,12 +305,12 @@ class Service
 
         $obj = json_decode($response->getBody());
         if ($response->isSuccess()) {
-            if (!is_null($obj)) {
+            if ($obj !== null) {
                 return $obj;
             }
-        } else {
-            throw new UnexpectedValueException($obj->error->message);
         }
+        
+        throw new UnexpectedValueException('Decoding response failed. Invalid json!');
     }
 
     /**
@@ -296,14 +318,15 @@ class Service
      * in search boxes to provide type-ahead suggestions as users are entering search terms.
      * https://msdn.microsoft.com/en-gb/library/dn798936.aspx
      *
-     * @param string $indexName
-     * @param string $term
-     * @param string $suggester
+     * @param string     $indexName
+     * @param string     $term
+     * @param string     $suggester
      * @param array|null $options List of all available options https://msdn.microsoft.com/en-us/library/dn798927.aspx
+     *
      * @return \stdClass
      * @throws UnexpectedValueException
      */
-    public function suggestions(string $indexName, string $term, string $suggester, array $options = null) : \stdClass
+    public function suggestions(string $indexName, string $term, string $suggester, array $options = null): \stdClass
     {
         $this->client->setUri($this->url . '/indexes/' . $indexName . '/docs/suggest?api-version=' . $this->getVersion())
             ->setMethod(Request::METHOD_POST);
@@ -313,7 +336,7 @@ class Service
             'suggesterName' => $suggester
         ];
 
-        if (!is_null($options)) {
+        if ($options !== null) {
             $args = array_merge($args, $options);
         }
 
@@ -325,12 +348,12 @@ class Service
 
         $obj = json_decode($response->getBody());
         if ($response->isSuccess()) {
-            if (!is_null($obj)) {
+            if ($obj !== null) {
                 return $obj;
             }
-        } else {
-            throw new UnexpectedValueException($obj->error->message);
         }
+
+        throw new UnexpectedValueException('Decoding response failed. Invalid json!');
     }
 
     /**
@@ -339,10 +362,11 @@ class Service
      * https://msdn.microsoft.com/en-gb/library/dn798924.aspx
      *
      * @param string $indexName
+     *
      * @return int
      * @throws UnexpectedValueException
      */
-    public function countDocuments(string $indexName) : int
+    public function countDocuments(string $indexName): int
     {
         $this->client->setUri($this->url . '/indexes/' . $indexName . '/docs/$count?api-version=' . $this->getVersion())
             ->setMethod(Request::METHOD_GET);
@@ -350,8 +374,8 @@ class Service
 
         if ($response->isSuccess()) {
             return (int)filter_var($response->getBody(), FILTER_SANITIZE_NUMBER_INT);
-        } else {
-            throw new UnexpectedValueException("Something went wrong during execution!");
         }
+
+        throw new UnexpectedValueException('Decoding response failed. Invalid json!');
     }
 }

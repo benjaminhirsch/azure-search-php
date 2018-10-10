@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace B3N\Azure\Search\Index;
 
@@ -101,32 +102,33 @@ final class Field
 
     /**
      * Field constructor.
+     *
      * @param string $name Sets the name of the field.
      * @param string $type Sets the data type for the field.
-     * @param bool $key Marks the field as containing unique identifiers for documents within the index.
+     * @param bool   $key Marks the field as containing unique identifiers for documents within the index.
      *                  Exactly one field must be chosen as the key field and it must be of type Edm.String.
      *                  Key fields can be used to look up documents directly.
-     * @param bool $searchable Marks the field as full-text search-able. This means it
+     * @param bool   $searchable Marks the field as full-text search-able. This means it
      *                         will undergo analysis such as word-breaking during indexing.
      *                         If you set a searchable field to a value like "sunny day",
      *                         internally it will be split into the individual tokens "sunny"
      *                         and "day". This enables full-text searches for these terms. Fields
      *                         of type Edm.String or Collection(Edm.String) are searchable by default.
      *                         Fields of other types are not searchable.
-     * @param bool $filterable Allows the field to be referenced in $filter queries. filterable differs
+     * @param bool   $filterable Allows the field to be referenced in $filter queries. filterable differs
      *                         from searchable in how strings are handled. Fields of type Edm.String or
      *                         Collection(Edm.String) that are filterable do not undergo word-breaking,
      *                         so comparisons are for exact matches only. For example, if you set such a
      *                         field f to "sunny day", $filter=f eq 'sunny' will find no matches, but $filter=f eq
      *                         'sunny day' will. All fields are filterable by default.
-     * @param bool $sortable By default the system sorts results by score, but in many experiences users will
+     * @param bool   $sortable By default the system sorts results by score, but in many experiences users will
      *                       want to sort by fields in the documents. Fields of type Collection(Edm.String)
      *                       cannot be sortable. All other fields are sortable by default.
-     * @param bool $facetable Typically used in a presentation of search results that includes hit count by
+     * @param bool   $facetable Typically used in a presentation of search results that includes hit count by
      *                        category (e.g. search for digital cameras and see hits by brand, by megapixels,
      *                        by price, etc.). This option cannot be used with fields of type Edm.GeographyPoint.
      *                        All other fields are facetable by default.
-     * @param bool $retrievable Sets whether the field can be returned in a search result. This is useful
+     * @param bool   $retrievable Sets whether the field can be returned in a search result. This is useful
      *                          when you want to use a field (e.g., margin) as a filter, sorting, or scoring
      *                          mechanism but do not want the field to be visible to the end user. This
      *                          attribute must be true for key fields.
