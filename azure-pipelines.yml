@@ -32,7 +32,7 @@ steps:
   displayName: 'Code coverage'
 
 # Publish test results
-- task: PublishTestResults@1
+- task: PublishTestResults@2
   displayName: Publish test results test-log.xml
   inputs:
     testResultsFiles: 'test-log.xml'
