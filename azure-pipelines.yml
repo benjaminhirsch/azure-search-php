@@ -35,6 +35,6 @@ steps:
 - task: PublishTestResults@2
   displayName: Publish test results test-log.xml
   inputs:
-    testResultsFiles: 'test-log.xml'
+    testResultsFiles: '**/test-*.xml'
     testRunTitle: 'PHPUnit test results'
-    searchFolder: '.'
+    searchFolder: '$(System.DefaultWorkingDirectory)'
