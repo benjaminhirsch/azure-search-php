@@ -46,7 +46,7 @@ class AzureSearchTest extends TestCase
             'AZURE_ADMIN_KEY',
             'AZURE_VERSION',
             null,
-            $this->client  
+            $this->client
         ));
 
         $this->client->method('send')->willReturn((new Response())->setStatusCode(200));
@@ -232,6 +232,6 @@ class AzureSearchTest extends TestCase
     public function testExceededUploadLimit()
     {
         $this->expectException(LengthException::class);
-        $this->azure->uploadToIndex('testindex', range(1,2000));
+        $this->azure->uploadToIndex('testindex', range(1, 2000));
     }
 }
