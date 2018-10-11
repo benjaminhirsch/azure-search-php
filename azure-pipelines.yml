@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/php
 
 jobs:
-- job: PHP 7.0
+- job: PHP_70
   pool:
     vmImage: 'Ubuntu 16.04'
 
@@ -27,7 +27,7 @@ jobs:
   - script: composer test-coverage
     displayName: 'Run tests with phpunit'
     
-- job: PHP 7.1
+- job: PHP_71
   pool:
     vmImage: 'Ubuntu 16.04'
 
@@ -50,7 +50,7 @@ jobs:
   - script: composer test-coverage
     displayName: 'Run tests with phpunit'
 
-- job: PHP 7.2
+- job: PHP_72
   pool:
     vmImage: 'Ubuntu 16.04'
 
