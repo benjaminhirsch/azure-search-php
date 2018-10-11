@@ -3,38 +3,86 @@
 # Add steps that run tests, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/php
 
-pool:
-  vmImage: 'Ubuntu 16.04'
+jobs:
+- job: PHP 7.0
+  pool:
+    vmImage: 'Ubuntu 16.04'
 
-variables:
-  phpVersion: 7.2
+  variables:
+    phpVersion: 7.0
 
-steps:
-- script: |
-    sudo update-alternatives --set php /usr/bin/php$(phpVersion)
-    sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
-    sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
-    sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
-    sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
-    php -version
-  displayName: 'Use PHP version $(phpVersion)'
+  steps:
+  - script: |
+      sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+      sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
+      sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
+      sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
+      sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+      php -version
+    displayName: 'Use PHP version $(phpVersion)'
 
-- script: composer install --no-interaction --prefer-dist
-  displayName: 'composer install'
-  
-- script: composer test-coverage
-  displayName: 'Run tests with phpunit'
-  
-- script: composer cs-check
-  displayName: 'Run cs checks'
-  
-- script: php vendor/bin/php-coveralls -v
-  displayName: 'Code coverage'
+  - script: composer install --no-interaction --prefer-dist
+    displayName: 'composer install'
 
-# Publish test results
-- task: PublishTestResults@2
-  displayName: Publish test results test-log.xml
-  inputs:
-    testResultsFiles: 'log.xml'
-    testRunTitle: 'PHPUnit test results'
-    searchFolder: '$(System.DefaultWorkingDirectory)/junit'
+  - script: composer test-coverage
+    displayName: 'Run tests with phpunit'
+    
+- job: PHP 7.1
+  pool:
+    vmImage: 'Ubuntu 16.04'
+
+  variables:
+    phpVersion: 7.1
+
+  steps:
+  - script: |
+      sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+      sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
+      sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
+      sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
+      sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+      php -version
+    displayName: 'Use PHP version $(phpVersion)'
+
+  - script: composer install --no-interaction --prefer-dist
+    displayName: 'composer install'
+
+  - script: composer test-coverage
+    displayName: 'Run tests with phpunit'
+
+- job: PHP 7.2
+  pool:
+    vmImage: 'Ubuntu 16.04'
+
+  variables:
+    phpVersion: 7.2
+
+  steps:
+  - script: |
+      sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+      sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
+      sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
+      sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
+      sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+      php -version
+    displayName: 'Use PHP version $(phpVersion)'
+
+  - script: composer install --no-interaction --prefer-dist
+    displayName: 'composer install'
+
+  - script: composer test-coverage
+    displayName: 'Run tests with phpunit'
+
+  - script: composer cs-check
+    displayName: 'Run cs checks'
+
+  - script: php vendor/bin/php-coveralls -v
+    displayName: 'Code coverage'
+
+  # Publish test results
+  #- task: PublishTestResults@2
+  #  displayName: Publish test results test-log.xml
+  #  inputs:
+  #    testResultsFiles: 'log.xml'
+  #    testRunTitle: 'PHPUnit test results'
+  #    searchFolder: '$(System.DefaultWorkingDirectory)/junit'
