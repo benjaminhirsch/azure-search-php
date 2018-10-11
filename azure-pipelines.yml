@@ -30,3 +30,11 @@ steps:
   
 - script: php vendor/bin/php-coveralls -v
   displayName: 'Code coverage'
+
+# Publish test results
+- task: PublishTestResults@1
+  displayName: Publish test results test-log.xml
+  inputs:
+    testResultsFiles: 'test-log-xml'
+    testRunTitle: 'PHPUnit test results'
+    searchFolder: '.'
