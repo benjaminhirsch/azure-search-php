@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace BenjaminHirschTest\Azure\Search;
 
@@ -6,7 +7,6 @@ use BenjaminHirsch\Azure\Search\Exception\LengthException;
 use BenjaminHirsch\Azure\Search\Index;
 use BenjaminHirsch\Azure\Search\Index\Field;
 use BenjaminHirsch\Azure\Search\Service;
-use http\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
 use Zend\Http\Client;
 use Zend\Http\Response;
@@ -79,7 +79,7 @@ class AzureSearchTest extends TestCase
         $index = new Index('testindex');
         $index->addField(new Field('test', Field::TYPE_STRING, true))
             ->addField(new Field('test2', Field::TYPE_STRING))
-            ->addCrossOrigins('foo', '1')
+            ->addCrossOrigins('foo', 1)
             ->addSuggesters(new Index\Suggest('livesearch', ['test']));
 
         /** @var \Zend\Http\Response $response */
