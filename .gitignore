@@ -13,4 +13,4 @@ phpunit.xml
 vendor
 test/config.php
 coverage/**
-test-log.xml
+junit/**
