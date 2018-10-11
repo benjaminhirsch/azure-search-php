@@ -2,10 +2,11 @@
 
 namespace B3NTest\Azure\Search;
 
-use B3N\Azure\Search\Exception\UnexpectedValueException;
+use B3N\Azure\Search\Exception\LengthException;
 use B3N\Azure\Search\Index;
 use B3N\Azure\Search\Index\Field;
 use B3N\Azure\Search\Service;
+use http\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
 use Zend\Http\Client;
 use Zend\Http\Response;
@@ -38,6 +39,31 @@ class AzureSearchTest extends TestCase
         );
     }
 
+    public function testConstruct()
+    {
+        $this->assertInstanceOf(Service::class, $foo = new Service(
+            'http://127.0.0.1',
+            'AZURE_ADMIN_KEY',
+            'AZURE_VERSION',
+            null,
+            $this->client  
+        ));
+
+        $this->client->method('send')->willReturn((new Response())->setStatusCode(200));
+        $foo->getIndex('testindex');
+
+        $this->assertInstanceOf(Service::class, $foo = new Service(
+            'http://127.0.0.1',
+            'AZURE_ADMIN_KEY',
+            'AZURE_VERSION',
+            null,
+            null
+        ));
+
+        $this->expectException(\Zend\Http\Exception\RuntimeException::class);
+        $foo->getIndex('testindex');
+    }
+    
     public function testInitAzureAdmin()
     {
         $this->assertInstanceOf('B3N\Azure\Search\Service', $this->azure);
@@ -53,12 +79,20 @@ class AzureSearchTest extends TestCase
         $index = new Index('testindex');
         $index->addField(new Field('test', Field::TYPE_STRING, true))
             ->addField(new Field('test2', Field::TYPE_STRING))
+            ->addCrossOrigins('foo', '1')
             ->addSuggesters(new Index\Suggest('livesearch', ['test']));
 
         /** @var \Zend\Http\Response $response */
         $response = $this->azure->createIndex($index);
 
         $this->assertEquals(Response::STATUS_CODE_201, $response->getStatusCode());
+    }
+    
+    public function testAddScoringProfile()
+    {
+        $this->expectException(\RuntimeException::class);
+        $index = new Index('testindex');
+        $index->addScoringProfile();
     }
 
     public function testUploadToIndex()
@@ -89,26 +123,24 @@ class AzureSearchTest extends TestCase
     public function testFailCountDocuments()
     {
         $this->client->method('send')->willReturn((new Response())->setStatusCode(500)->setContent(null));
-        $this->expectException(UnexpectedValueException::class);
-        $this->azure->countDocuments('testindex');
+        $this->assertEquals(0, $this->azure->countDocuments('testindex'));
     }
 
     public function testSuggest()
     {
         $this->client->method('send')->willReturn((new Response())->setStatusCode(200)
             ->setContent(json_encode(['foo' => 'bar'])));
-        $this->assertInstanceOf(
-            \stdClass::class,
-            $this->azure->suggestions('testindex', uniqid('', true), 'livesearch')
+        $this->assertEquals(
+            ['foo' => 'bar'],
+            $this->azure->suggestions('testindex', uniqid('', true), 'livesearch', ['foo' => 'bar'])
         );
     }
 
     public function testFailSuggest()
     {
         $this->client->method('send')->willReturn((new Response())->setStatusCode(200)->setContent(null));
-        $this->expectException(UnexpectedValueException::class);
-        $this->assertInstanceOf(
-            \stdClass::class,
+        $this->assertEquals(
+            [],
             $this->azure->suggestions('testindex', uniqid('', true), 'livesearch')
         );
     }
@@ -128,14 +160,78 @@ class AzureSearchTest extends TestCase
     {
         $this->client->method('send')->willReturn((new Response())->setStatusCode(200)
             ->setContent(json_encode(['foo' => 'bar'])));
-        $this->assertInstanceOf(\stdClass::class, $this->azure->search('testindex', 'foo'));
+        $this->assertEquals(['foo' => 'bar'], $this->azure->search('testindex', 'foo', ['foo' => 'bar']));
     }
 
     public function testFailSearch()
     {
         $this->client->method('send')->willReturn((new Response())->setStatusCode(200)
             ->setContent(null));
-        $this->expectException(UnexpectedValueException::class);
-        $this->azure->search('testindex', 'foo');
+
+        $this->assertEquals([], $this->azure->search('testindex', 'foo'));
+    }
+
+    public function testUpdateIndex()
+    {
+        $this->client->method('send')->willReturn((new Response())->setStatusCode(200));
+        $response = $this->azure->updateIndex(new Index('testindex'));
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals(Response::STATUS_CODE_200, $response->getStatusCode());
+    }
+
+    public function testListIndexes()
+    {
+        $this->client->method('send')->willReturn((new Response())->setStatusCode(200)
+            ->setContent(json_encode([
+                'value' => [
+                    'foo' => 'bar'
+                ]
+            ])));
+
+        $this->assertArrayHasKey(
+            'foo',
+            $this->azure->listIndexes()
+        );
+    }
+
+    public function testFailListIndexes()
+    {
+        $this->client->method('send')->willReturn((new Response())->setStatusCode(200)
+            ->setContent(json_encode(null)));
+
+        $this->assertEquals(
+            [],
+            $this->azure->listIndexes()
+        );
+    }
+
+    public function testGetIndex()
+    {
+        $this->client->method('send')->willReturn((new Response())->setStatusCode(200)->setContent(json_encode(['foo' => 'bar'])));
+        $this->assertEquals(['foo' => 'bar'], $this->azure->getIndex('testindex'));
+    }
+
+    public function testFailGetIndex()
+    {
+        $this->client->method('send')->willReturn((new Response())->setStatusCode(200)->setContent(null));
+        $this->assertEquals([], $this->azure->getIndex('testindex'));
+    }
+
+    public function testGetIndexStatistics()
+    {
+        $this->client->method('send')->willReturn((new Response())->setStatusCode(200)->setContent(json_encode(['foo' => 'bar'])));
+        $this->assertEquals(['foo' => 'bar'], $this->azure->getIndexStatistics('testindex'));
+    }
+
+    public function testFailGetIndexStatistics()
+    {
+        $this->client->method('send')->willReturn((new Response())->setStatusCode(200)->setContent(null));
+        $this->assertEquals([], $this->azure->getIndexStatistics('testindex'));
+    }
+    
+    public function testExceededUploadLimit()
+    {
+        $this->expectException(LengthException::class);
+        $this->azure->uploadToIndex('testindex', range(1,2000));
     }
 }

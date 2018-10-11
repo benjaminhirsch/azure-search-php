@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace B3N\Azure\Search;
 
 use B3N\Azure\Search\Exception\LengthException;
-use B3N\Azure\Search\Exception\UnexpectedValueException;
 use Zend\Http\Client;
 use Zend\Http\Client\Adapter\AdapterInterface;
 use Zend\Http\Client\Adapter\Curl;
@@ -211,9 +210,9 @@ class Service
         $response = $this->client->send();
 
         if ($response->isSuccess()) {
-            $obj = json_decode($response->getBody());
+            $obj = json_decode($response->getBody(), true);
             if ($obj !== null) {
-                return $obj->value;
+                return $obj['value'];
             }
         }
 
@@ -226,23 +225,20 @@ class Service
      *
      * @param string $indexName
      *
-     * @return \stdClass
-     * @throws UnexpectedValueException
+     * @return array
      */
-    public function getIndex(string $indexName): \stdClass
+    public function getIndex(string $indexName): array
     {
         $this->client->setUri($this->url . '/indexes/' . $indexName . '?api-version=' . $this->getVersion())
             ->setMethod(Request::METHOD_GET);
         $response = $this->client->send();
 
-        $obj = json_decode($response->getBody());
-        if ($response->isSuccess()) {
-            if ($obj !== null) {
-                return $obj;
-            }
-        } else {
-            throw new UnexpectedValueException($obj->error->message);
+        $obj = json_decode($response->getBody(), true);
+        if ($obj !== null && $response->isSuccess()) {
+            return $obj;
         }
+
+        return [];
     }
 
     /**
@@ -252,23 +248,20 @@ class Service
      *
      * @param string $indexName
      *
-     * @return \stdClass
-     * @throws UnexpectedValueException
+     * @return array
      */
-    public function getIndexStatistics(string $indexName): \stdClass
+    public function getIndexStatistics(string $indexName): array
     {
         $this->client->setUri($this->url . '/indexes/' . $indexName . '/stats?api-version=' . $this->getVersion())
             ->setMethod(Request::METHOD_GET);
         $response = $this->client->send();
 
-        $obj = json_decode($response->getBody());
-        if ($response->isSuccess()) {
-            if ($obj !== null) {
-                return $obj;
-            }
-        } else {
-            throw new UnexpectedValueException($obj->error->message);
+        $obj = json_decode($response->getBody(), true);
+        if ($obj !== null && $response->isSuccess()) {
+            return $obj;
         }
+
+        return [];
     }
 
     /**
@@ -279,10 +272,9 @@ class Service
      * @param string|null $term
      * @param array|null  $options List of all available options https://msdn.microsoft.com/en-us/library/dn798927.aspx
      *
-     * @return \stdClass
-     * @throws UnexpectedValueException
+     * @return array
      */
-    public function search(string $indexName, string $term = null, array $options = null): \stdClass
+    public function search(string $indexName, string $term = null, array $options = null): array
     {
         $this->client->setUri($this->url . '/indexes/' . $indexName . '/docs/search?api-version=' . $this->getVersion())
             ->setMethod(Request::METHOD_POST);
@@ -304,14 +296,12 @@ class Service
 
         $response = $this->client->send();
 
-        $obj = json_decode($response->getBody());
-        if ($response->isSuccess()) {
-            if ($obj !== null) {
-                return $obj;
-            }
+        $obj = json_decode($response->getBody(), true);
+        if ($obj !== null && $response->isSuccess()) {
+            return $obj;
         }
-        
-        throw new UnexpectedValueException('Decoding response failed. Invalid json!');
+
+        return [];
     }
 
     /**
@@ -324,10 +314,9 @@ class Service
      * @param string     $suggester
      * @param array|null $options List of all available options https://msdn.microsoft.com/en-us/library/dn798927.aspx
      *
-     * @return \stdClass
-     * @throws UnexpectedValueException
+     * @return array
      */
-    public function suggestions(string $indexName, string $term, string $suggester, array $options = null): \stdClass
+    public function suggestions(string $indexName, string $term, string $suggester, array $options = null): array
     {
         $this->client
             ->setUri($this->url . '/indexes/' . $indexName . '/docs/suggest?api-version=' . $this->getVersion())
@@ -348,14 +337,12 @@ class Service
 
         $response = $this->client->send();
 
-        $obj = json_decode($response->getBody());
-        if ($response->isSuccess()) {
-            if ($obj !== null) {
-                return $obj;
-            }
+        $obj = json_decode($response->getBody(), true);
+        if ($obj !== null && $response->isSuccess()) {
+            return $obj;
         }
 
-        throw new UnexpectedValueException('Decoding response failed. Invalid json!');
+        return [];
     }
 
     /**
@@ -366,7 +353,6 @@ class Service
      * @param string $indexName
      *
      * @return int
-     * @throws UnexpectedValueException
      */
     public function countDocuments(string $indexName): int
     {
@@ -378,6 +364,6 @@ class Service
             return (int)filter_var($response->getBody(), FILTER_SANITIZE_NUMBER_INT);
         }
 
-        throw new UnexpectedValueException('Decoding response failed. Invalid json!');
+        return 0;
     }
 }
