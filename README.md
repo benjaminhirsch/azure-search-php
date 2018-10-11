@@ -1,5 +1,6 @@
 # Microsoft Azure Search Service for php
 [![Latest Stable Version](https://poser.pugx.org/benjaminhirsch/php-azure-search/v/stable)](https://packagist.org/packages/benjaminhirsch/php-azure-search)
+[![Build Status](https://benjaminhirsch.visualstudio.com/azure-search-php/_apis/build/status/benjaminhirsch.azure-search-php)](https://benjaminhirsch.visualstudio.com/azure-search-php/_build/latest?definitionId=1)
 [![Build Status](https://travis-ci.com/benjaminhirsch/azure-search-php.svg?branch=master)](https://travis-ci.org/benjaminhirsch/azure-search-php)
 [![Coverage Status](https://coveralls.io/repos/github/benjaminhirsch/azure-search-php/badge.svg?branch=master&t=1)](https://coveralls.io/github/benjaminhirsch/azure-search-php?branch=master)
 [![License](https://poser.pugx.org/benjaminhirsch/php-azure-search/license)](https://packagist.org/packages/benjaminhirsch/php-azure-search)
