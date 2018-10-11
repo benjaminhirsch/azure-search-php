@@ -35,6 +35,6 @@ steps:
 - task: PublishTestResults@1
   displayName: Publish test results test-log.xml
   inputs:
-    testResultsFiles: 'test-log-xml'
+    testResultsFiles: 'test-log.xml'
     testRunTitle: 'PHPUnit test results'
     searchFolder: '.'
