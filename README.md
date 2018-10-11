@@ -2,7 +2,6 @@
 [![Latest Stable Version](https://poser.pugx.org/benjaminhirsch/php-azure-search/v/stable)](https://packagist.org/packages/benjaminhirsch/php-azure-search)
 [![Build Status](https://travis-ci.com/benjaminhirsch/azure-search-php.svg?branch=master)](https://travis-ci.org/benjaminhirsch/azure-search-php)
 [![Coverage Status](https://coveralls.io/repos/github/benjaminhirsch/azure-search-php/badge.svg?branch=master&t=1)](https://coveralls.io/github/benjaminhirsch/azure-search-php?branch=master)
-[![Total Downloads](https://poser.pugx.org/benjaminhirsch/php-azure-search/downloads)](https://packagist.org/packages/benjaminhirsch/php-azure-search)
 [![License](https://poser.pugx.org/benjaminhirsch/php-azure-search/license)](https://packagist.org/packages/benjaminhirsch/php-azure-search)
 
 `benjaminhirsch/php-azure-search` is a simple php toolbox to interact with the Microsoft Azure Search Service REST API.
