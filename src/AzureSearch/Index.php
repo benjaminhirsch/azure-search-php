@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace B3N\Azure\Search;
+namespace BenjaminHirsch\Azure\Search;
 
-use B3N\Azure\Search\Index\Field;
-use B3N\Azure\Search\Index\Suggest;
+use BenjaminHirsch\Azure\Search\Index\Field;
+use BenjaminHirsch\Azure\Search\Index\Suggest;
 
 final class Index
 {

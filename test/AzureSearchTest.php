@@ -1,11 +1,11 @@
 <?php
 
-namespace B3NTest\Azure\Search;
+namespace BenjaminHirschTest\Azure\Search;
 
-use B3N\Azure\Search\Exception\LengthException;
-use B3N\Azure\Search\Index;
-use B3N\Azure\Search\Index\Field;
-use B3N\Azure\Search\Service;
+use BenjaminHirsch\Azure\Search\Exception\LengthException;
+use BenjaminHirsch\Azure\Search\Index;
+use BenjaminHirsch\Azure\Search\Index\Field;
+use BenjaminHirsch\Azure\Search\Service;
 use http\Exception\RuntimeException;
 use PHPUnit\Framework\TestCase;
 use Zend\Http\Client;
@@ -66,7 +66,7 @@ class AzureSearchTest extends TestCase
     
     public function testInitAzureAdmin()
     {
-        $this->assertInstanceOf('B3N\Azure\Search\Service', $this->azure);
+        $this->assertInstanceOf('BenjaminHirsch\Azure\Search\Service', $this->azure);
         $this->assertEquals('http://127.0.0.1', $this->azure->getUrl());
         $this->assertEquals('AZURE_ADMIN_KEY', $this->azure->getApiAdminKey());
     }
@@ -207,7 +207,9 @@ class AzureSearchTest extends TestCase
 
     public function testGetIndex()
     {
-        $this->client->method('send')->willReturn((new Response())->setStatusCode(200)->setContent(json_encode(['foo' => 'bar'])));
+        $this->client->method('send')->willReturn((new Response())->setStatusCode(200)->setContent(
+            json_encode(['foo' => 'bar'])
+        ));
         $this->assertEquals(['foo' => 'bar'], $this->azure->getIndex('testindex'));
     }
 
@@ -219,7 +221,9 @@ class AzureSearchTest extends TestCase
 
     public function testGetIndexStatistics()
     {
-        $this->client->method('send')->willReturn((new Response())->setStatusCode(200)->setContent(json_encode(['foo' => 'bar'])));
+        $this->client->method('send')->willReturn((new Response())->setStatusCode(200)->setContent(
+            json_encode(['foo' => 'bar'])
+        ));
         $this->assertEquals(['foo' => 'bar'], $this->azure->getIndexStatistics('testindex'));
     }
 

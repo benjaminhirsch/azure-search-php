@@ -1,5 +1,5 @@
 {
-  "name": "b3n/php-azure-search",
+  "name": "benjaminhirsch/php-azure-search",
   "description": "A simple PHP Class to communicate with the Microsoft Azure Search REST API",
   "minimum-stability": "stable",
   "license": "MIT",
@@ -32,12 +32,12 @@
   },
   "autoload": {
     "psr-4": {
-      "B3N\\Azure\\Search\\": "src/AzureSearch"
+      "BenjaminHirsch\\Azure\\Search\\": "src/AzureSearch"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "B3NTest\\Azure\\Search\\": "test/"
+      "BenjaminHirschTest\\Azure\\Search\\": "test/"
     }
   },
   "scripts": {
