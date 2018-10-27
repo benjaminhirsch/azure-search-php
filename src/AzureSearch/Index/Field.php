@@ -45,7 +45,7 @@ final class Field
      * the value returned will be rounded up to milliseconds (for example,
      * 2015-04-15T10:30:09.7552052Z will be returned as 2015-04-15T10:30:09.7550000Z).
      */
-    const TYPE_DATETIMEOFFSET = "Emd.DateTimeOffset";
+    const TYPE_DATETIMEOFFSET = "Edm.DateTimeOffset";
 
     /**
      * A point representing a geographic location on the globe. For request and response
@@ -53,7 +53,7 @@ final class Field
      * type format. For URLs OData uses a literal form based on the WKT standard.
      * A point literal is constructed as geography'POINT(lon lat)'.
      */
-    const TYPE_GEOGRAPHYPOINT = "Emd.GeographyPoint";
+    const TYPE_GEOGRAPHYPOINT = "Edm.GeographyPoint";
 
     /**
      * @var string
