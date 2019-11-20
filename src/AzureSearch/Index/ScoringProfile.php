@@ -28,11 +28,7 @@ final class ScoringProfile
         $data = [];
 
         foreach ($this->options as $option => $value) {
-            if ($option === "weights") {
-                $data["text"][] = [$option => $value];
-            } else {
-                $data[$option] = $value;
-            }
+            $data[] = [$option => $value];
         }
 
         return $data;
