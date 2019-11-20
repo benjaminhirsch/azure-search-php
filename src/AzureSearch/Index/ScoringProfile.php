@@ -25,12 +25,11 @@ final class ScoringProfile
      */
     public function __invoke()
     {
-        $data = [];
-
-        foreach ($this->options as $option => $value) {
-            $data[] = [$option => $value];
-        }
-
-        return json_encode($data);
+        return [
+            "name" => $this->name,
+            "text" => [
+                "weights" => $this->options["weights"]
+            ]
+        ];
     }
 }
