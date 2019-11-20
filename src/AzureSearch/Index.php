@@ -5,6 +5,7 @@ namespace BenjaminHirsch\Azure\Search;
 
 use BenjaminHirsch\Azure\Search\Index\Field;
 use BenjaminHirsch\Azure\Search\Index\Suggest;
+use BenjaminHirsch\Azure\Search\Index\ScoringProfile;
 
 final class Index
 {
@@ -46,6 +47,11 @@ final class Index
      * @var array
      */
     private $suggesters = [];
+
+    /**
+     * @var array
+     */
+    private $scoringProfiles = [];
 
     /**
      * @var mixed
@@ -119,13 +125,14 @@ final class Index
     }
 
     /**
-     * @todo Implement possibility to add scoring profiles
-     *
-     * @throws \Exception
+     * @param ScoringProfile $scoringProfile
+     * @return Index
      */
-    public function addScoringProfile()
+    public function addScoringProfile(ScoringProfile $scoringProfile)
     {
-        throw new \RuntimeException('Not yet implemented');
+        $this->scoringProfiles[] = $scoringProfile;
+
+        return $this;
     }
 
     /**
@@ -137,7 +144,8 @@ final class Index
             'name' => $this->name,
             'fields' => $this->fields,
             'suggesters' => $this->suggesters,
-            'corsOptions' => $this->crossOrigins
+            'corsOptions' => $this->crossOrigins,
+            'scoringProfiles' => $this->scoringProfiles
         ];
     }
 }
