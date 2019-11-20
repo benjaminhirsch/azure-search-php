@@ -31,6 +31,6 @@ final class ScoringProfile
             $data[] = [$option => $value];
         }
 
-        return $data;
+        return json_encode($data);
     }
 }
