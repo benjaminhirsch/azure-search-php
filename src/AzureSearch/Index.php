@@ -130,7 +130,7 @@ final class Index
      */
     public function addScoringProfile(ScoringProfile $scoringProfile)
     {
-        $this->scoringProfiles[] = $scoringProfile;
+        $this->scoringProfiles[] = $scoringProfile();
 
         return $this;
     }

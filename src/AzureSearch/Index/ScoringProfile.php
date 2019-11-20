@@ -26,8 +26,8 @@ final class ScoringProfile
     public function __invoke()
     {
         return [
-            "name" => $this->name,
-            "text" => $this->text
+            'name' => $this->name,
+            'text' => $this->text
         ];
     }
 }
