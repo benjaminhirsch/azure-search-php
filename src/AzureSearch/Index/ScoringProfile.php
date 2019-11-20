@@ -12,12 +12,12 @@ final class ScoringProfile
     /**
      * @var array
      */
-    private $text = [];
+    private $options = [];
 
-    public function __construct(string $name, array $weights)
+    public function __construct(string $name, array $options)
     {
         $this->name = $name;
-        $this->text["weights"] = $weights;
+        $this->options = $options;
     }
 
     /**
@@ -25,9 +25,15 @@ final class ScoringProfile
      */
     public function __invoke()
     {
-        return [
-            'name' => $this->name,
-            'text' => $this->text
-        ];
+        $data = ["name" => $this->name];
+
+        foreach ($this->options as $key => $value) {
+            if ($key === "weights") {
+                $data["text"] = [$key => $value];
+            } else {
+                $data[$key] = $value;
+            }
+        }
+        return $data;
     }
 }
