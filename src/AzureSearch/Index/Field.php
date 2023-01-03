@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace BenjaminHirsch\Azure\Search\Index;
+namespace Eliotaz\Azure\Search\Index;
 
 final class Field
 {

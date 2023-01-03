@@ -1,5 +1,5 @@
 {
-  "name": "benjaminhirsch/php-azure-search",
+  "name": "eliot-az/php-azure-search",
   "description": "A simple PHP Class to communicate with the Microsoft Azure Search REST API",
   "minimum-stability": "stable",
   "license": "MIT",
@@ -10,8 +10,8 @@
   },
   "authors": [
     {
-      "name": "Benjamin Hirsch",
-      "email": "mail@benjaminhirsch.net"
+      "name": "Eliot",
+      "email": "eliotzps@gmail.com"
     }
   ],
   "keywords": [
@@ -32,12 +32,12 @@
   },
   "autoload": {
     "psr-4": {
-      "BenjaminHirsch\\Azure\\Search\\": "src/AzureSearch"
+      "Eliotaz\\Azure\\Search\\": "src/AzureSearch"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "BenjaminHirschTest\\Azure\\Search\\": "test/"
+      "EliotazTest\\Azure\\Search\\": "test/"
     }
   },
   "scripts": {

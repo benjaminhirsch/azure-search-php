@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace BenjaminHirschTest\Azure\Search;
+namespace Eliotaz\Azure\Search;
 
-use BenjaminHirsch\Azure\Search\Exception\LengthException;
-use BenjaminHirsch\Azure\Search\Index;
-use BenjaminHirsch\Azure\Search\Index\Field;
-use BenjaminHirsch\Azure\Search\Service;
+use Eliotaz\Azure\Search\Exception\LengthException;
+use Eliotaz\Azure\Search\Index;
+use Eliotaz\Azure\Search\Index\Field;
+use Eliotaz\Azure\Search\Service;
 use PHPUnit\Framework\TestCase;
 use Zend\Http\Client;
 use Zend\Http\Response;
@@ -66,7 +66,7 @@ class AzureSearchTest extends TestCase
     
     public function testInitAzureAdmin()
     {
-        $this->assertInstanceOf('BenjaminHirsch\Azure\Search\Service', $this->azure);
+        $this->assertInstanceOf('Eliotaz\Azure\Search\Service', $this->azure);
         $this->assertEquals('http://127.0.0.1', $this->azure->getUrl());
         $this->assertEquals('AZURE_ADMIN_KEY', $this->azure->getApiAdminKey());
     }
