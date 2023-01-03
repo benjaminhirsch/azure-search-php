@@ -108,6 +108,34 @@ jobs:
     - script: php vendor/bin/php-coveralls -v
       displayName: 'Code coverage'
 
+- job: PHP_81
+  pool:
+    vmImage: 'ubuntu-22.04'
+
+  variables:
+    phpVersion: 8.1
+
+  steps:
+    - script: |
+        sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+        sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
+        sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
+        sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
+        sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+        php -version
+      displayName: 'Use PHP version $(phpVersion)'
+
+    - script: composer install --no-interaction --prefer-dist
+      displayName: 'composer install'
+
+    - script: composer test-coverage
+      displayName: 'Run tests with phpunit'
+
+    - script: composer cs-check
+      displayName: 'Run cs checks'
+
+    - script: php vendor/bin/php-coveralls -v
+      displayName: 'Code coverage'
   # Publish test results
   #- task: PublishTestResults@2
   #  displayName: Publish test results test-log.xml
