@@ -32,12 +32,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Eliotaz\\Azure\\Search\\": "src/AzureSearch"
+      "BenjaminHirsch\\Azure\\Search\\": "src/AzureSearch"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "EliotazTest\\Azure\\Search\\": "test/"
+      "BenjaminHirschTest\\Azure\\Search\\": "test/"
     }
   },
   "scripts": {

@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Eliotaz\Azure\Search;
+namespace BenjaminHirsch\Azure\Search;
 
-use Eliotaz\Azure\Search\Index\Field;
-use Eliotaz\Azure\Search\Index\Suggest;
+use BenjaminHirsch\Azure\Search\Index\Field;
+use BenjaminHirsch\Azure\Search\Index\Suggest;
 
 final class Index
 {

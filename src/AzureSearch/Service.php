@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Eliotaz\Azure\Search;
+namespace BenjaminHirsch\Azure\Search;
 
-use Eliotaz\Azure\Search\Exception\LengthException;
+use BenjaminHirsch\Azure\Search\Exception\LengthException;
 use Zend\Http\Client;
 use Zend\Http\Client\Adapter\AdapterInterface;
 use Zend\Http\Client\Adapter\Curl;
