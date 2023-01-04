@@ -1,6 +1,6 @@
 {
   "name": "eliot-az/php-azure-search",
-  "description": "A simple PHP Class to communicate with the Microsoft Azure Search REST API",
+  "description": "A simple PHP Class to communicate with the Microsoft Azure Search REST API test",
   "minimum-stability": "stable",
   "license": "MIT",
   "config": {
