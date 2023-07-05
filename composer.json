@@ -1,17 +1,17 @@
 {
-  "name": "benjaminhirsch/php-azure-search",
-  "description": "A simple PHP Class to communicate with the Microsoft Azure Search REST API",
+  "name": "eliot-az/php-azure-search",
+  "description": "A simple PHP Class to communicate with the Microsoft Azure Search REST API test",
   "minimum-stability": "stable",
   "license": "MIT",
   "config": {
     "platform": {
-      "php": "7.0.32"
+      "php": "8.1"
     }
   },
   "authors": [
     {
-      "name": "Benjamin Hirsch",
-      "email": "mail@benjaminhirsch.net"
+      "name": "Eliot",
+      "email": "eliotzps@gmail.com"
     }
   ],
   "keywords": [
@@ -20,15 +20,15 @@
     "microsoft"
   ],
   "require": {
-    "php": "^7.0",
-    "zendframework/zend-http": "^2.8",
+    "php": "^7.0|| ^8.1",
+    "laminas/laminas-http": "^2.16.1",
     "ext-json": "*"
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
-    "phpunit/phpunit": "^6.0",
-    "squizlabs/php_codesniffer": "^3.3",
-    "php-coveralls/php-coveralls": "^2.1"
+    "phpunit/phpunit": "^9.5.26",
+    "squizlabs/php_codesniffer": "^3.7.1",
+    "php-coveralls/php-coveralls": "v2.5.3"
   },
   "autoload": {
     "psr-4": {
